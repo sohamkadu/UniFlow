@@ -39,11 +39,15 @@ Users can:
 
 Manage USDC across multiple supported blockchains from one dashboard.
 
+![Dashboard](README-assets/dashboard.png)
+
 ---
 
 ## 💸 Deposit
 
 Deposit USDC from supported chains into your unified balance.
+
+![Deposit](README-assets/deposit.png)
 
 ---
 
@@ -51,11 +55,14 @@ Deposit USDC from supported chains into your unified balance.
 
 Spend directly from your unified balance without manually moving assets.
 
+![Spend](README-assets/spend.png)
 ---
 
 ## 📊 Transaction History
 
 View your recent transactions in one place.
+
+![Transaction](README-assets/transaction.png)
 
 ---
 
@@ -119,7 +126,7 @@ UniFlow
 Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/UniFlow.git
+git clone https://github.com/sohamkadu/UniFlow.git
 ```
 
 Go inside the project
@@ -141,8 +148,7 @@ Create a `.env` file using the provided example.
 Example:
 
 ```env
-VITE_APPKIT_CLIENT_KEY=YOUR_KEY
-VITE_APPKIT_ENTITY_SECRET=YOUR_SECRET
+VITE_KIT_KEY=KIT_KEY:Your Key
 ```
 
 Start development server
