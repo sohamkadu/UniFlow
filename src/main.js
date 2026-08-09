@@ -194,6 +194,23 @@ async function ensureChain(chainKey) {
   }
 }
 
+async function handleChainSelection(chainKey) {
+  const status = $("networkStatus");
+
+  if (!userAddress) {
+    if (status) status.textContent = `Select ${CHAINS[chainKey]?.label || chainKey} and connect your wallet to switch networks`;
+    return;
+  }
+
+  try {
+    await ensureChain(chainKey);
+    if (status) status.textContent = `Switched to ${CHAINS[chainKey]?.label || chainKey}`;
+  } catch (err) {
+    console.error("Chain switch failed", err);
+    if (status) status.textContent = `Could not switch to ${CHAINS[chainKey]?.label || chainKey} — approve the network change in your wallet`;
+  }
+}
+
 // A single adapter works across all chains — createViemAdapterFromProvider
 // derives wallet/public clients per chain lazily and internally. We still
 // call ensureChain() before any action that signs, because MetaMask itself
@@ -463,6 +480,9 @@ async function depositToUnifiedBalance(chainKey, amount) {
   showBalanceShimmer();
   const depositRow = ledger[0];
   const startingConfirmed = getConfirmedBalanceTotal(currentBalances);
+  depositRow.startingConfirmed = startingConfirmed;
+  depositRow.expectedConfirmed = startingConfirmed + parseFloat(amount ?? "0");
+  saveLedger();
 
   const watchDepositSettlement = async () => {
     let seenPendingDeposit = false;
@@ -479,7 +499,13 @@ async function depositToUnifiedBalance(chainKey, amount) {
       const depositTarget = startingConfirmed + parseFloat(amount ?? "0") - 0.000001;
 
       if (depositRow?.status === "confirmed" || latestConfirmed >= depositTarget) {
+        if (depositRow?.status !== "confirmed") {
+          depositRow.status = "confirmed";
+          saveLedger();
+          renderLedger();
+        }
         $("networkStatus").textContent = "Deposit credited — unified balance updated";
+        hideBalanceShimmer();
         return;
       }
 
@@ -709,6 +735,13 @@ async function reconcileLedgerWithPendingTransactions(balances) {
   for (const row of ledger) {
     if (!row.hash || row.status !== "pending") continue;
     const hashLower = row.hash.toLowerCase();
+    const currentConfirmed = getConfirmedBalanceTotal(balances);
+    const expectedConfirmed = parseFloat(row.expectedConfirmed ?? "NaN");
+
+    if (!Number.isNaN(expectedConfirmed) && currentConfirmed >= expectedConfirmed - 0.000001) {
+      row.status = "confirmed";
+      continue;
+    }
 
     // Check if transaction is confirmed on-chain
     const isConfirmedOnChain = await isTxConfirmedOnChain(row.chain, row.hash);
@@ -880,6 +913,10 @@ $("depositForm").addEventListener("submit", async (e) => {
     btn.disabled = false;
     btn.textContent = "Deposit";
   }
+});
+
+$("depositChain").addEventListener("change", async (e) => {
+  await handleChainSelection(e.target.value);
 });
 
 $("spendForm").addEventListener("submit", async (e) => {
