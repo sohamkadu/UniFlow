@@ -1,0 +1,75 @@
+<svg width="320" height="320" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bgGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(160 160) rotate(90) scale(120)">
+      <stop offset="0" stop-color="#1BE7FF" stop-opacity="0.95"/>
+      <stop offset="0.42" stop-color="#6B78FF" stop-opacity="0.72"/>
+      <stop offset="0.72" stop-color="#F15BE8" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#07090E" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="coreGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(160 160) rotate(90) scale(56)">
+      <stop offset="0" stop-color="#EAFBFF"/>
+      <stop offset="0.34" stop-color="#66F2FF"/>
+      <stop offset="0.7" stop-color="#2AC8FF"/>
+      <stop offset="1" stop-color="#0A75FF"/>
+    </radialGradient>
+    <linearGradient id="swirlA" x1="56" y1="78" x2="258" y2="250" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#A7F3FF"/>
+      <stop offset="0.36" stop-color="#44CFFF"/>
+      <stop offset="0.72" stop-color="#6F69FF"/>
+      <stop offset="1" stop-color="#D95CFF"/>
+    </linearGradient>
+    <linearGradient id="swirlB" x1="56" y1="246" x2="250" y2="62" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#56D8FF"/>
+      <stop offset="0.42" stop-color="#4D7CFF"/>
+      <stop offset="0.76" stop-color="#C84CFF"/>
+      <stop offset="1" stop-color="#FF74D8"/>
+    </linearGradient>
+    <linearGradient id="swirlC" x1="92" y1="46" x2="238" y2="276" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FEFFFF"/>
+      <stop offset="0.2" stop-color="#8CF3FF"/>
+      <stop offset="0.55" stop-color="#548CFF"/>
+      <stop offset="1" stop-color="#D74EFF"/>
+    </linearGradient>
+    <filter id="softGlow" x="0" y="0" width="320" height="320" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <circle cx="160" cy="160" r="146" fill="#040507"/>
+  <circle cx="160" cy="160" r="120" fill="url(#bgGlow)" opacity="0.95"/>
+
+  <g filter="url(#softGlow)">
+    <path d="M99 72C145 46 220 55 256 106C289 153 281 222 231 254C199 275 163 280 129 269" stroke="url(#swirlA)" stroke-width="34" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+    <path d="M221 73C250 108 251 164 220 202C188 242 135 254 95 232C68 217 51 192 45 164" stroke="url(#swirlB)" stroke-width="30" stroke-linecap="round" stroke-linejoin="round" opacity="0.92"/>
+    <path d="M123 52C167 39 213 56 235 96C251 124 252 158 241 189C229 222 203 250 165 265C128 280 92 273 61 251" stroke="url(#swirlC)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+    <path d="M83 116C63 154 68 203 100 236C124 261 159 272 193 267C221 263 244 249 261 228" stroke="url(#swirlA)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>
+    <path d="M248 146C257 178 252 211 232 238C210 267 175 280 141 276C116 273 92 262 73 244" stroke="url(#swirlB)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity="0.72"/>
+  </g>
+
+  <circle cx="160" cy="160" r="43" fill="url(#coreGlow)" opacity="0.98"/>
+  <circle cx="160" cy="160" r="26" fill="#FFFFFF" opacity="0.18"/>
+  <circle cx="160" cy="160" r="12" fill="#FFFFFF" opacity="0.55"/>
+
+  <g fill="#FFFFFF" opacity="0.8">
+    <circle cx="67" cy="92" r="2.6"/>
+    <circle cx="270" cy="98" r="2.2"/>
+    <circle cx="50" cy="214" r="1.9"/>
+    <circle cx="276" cy="202" r="2.1"/>
+    <circle cx="88" cy="282" r="1.8"/>
+    <circle cx="244" cy="60" r="1.7"/>
+  </g>
+
+  <g stroke="#FFFFFF" stroke-linecap="round" opacity="0.9">
+    <path d="M76 61v14" stroke-width="2.2"/>
+    <path d="M69 68h14" stroke-width="2.2"/>
+    <path d="M252 37v13" stroke-width="1.8"/>
+    <path d="M246 43h12" stroke-width="1.8"/>
+    <path d="M279 156v11" stroke-width="1.6"/>
+    <path d="M274 161h10" stroke-width="1.6"/>
+  </g>
+</svg>

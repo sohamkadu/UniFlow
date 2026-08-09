@@ -49,8 +49,8 @@ const CHAINS = {
 };
 
 const KIT_KEY = import.meta.env.VITE_KIT_KEY;
-const POST_DEPOSIT_POLL_INTERVAL_MS = 60_000;
-const POST_DEPOSIT_POLL_ATTEMPTS = 15;
+const POST_DEPOSIT_POLL_INTERVAL_MS = 5_000;
+const POST_DEPOSIT_POLL_ATTEMPTS = 72;
 
 const $ = (id) => document.getElementById(id);
 const kit = new AppKit();
@@ -465,7 +465,7 @@ async function depositToUnifiedBalance(chainKey, amount) {
   const startingConfirmed = getConfirmedBalanceTotal(currentBalances);
 
   const watchDepositSettlement = async () => {
-    const watchId = Date.now();
+    let seenPendingDeposit = false;
 
     for (let attempt = 0; attempt < POST_DEPOSIT_POLL_ATTEMPTS; attempt++) {
       if (attempt > 0) {
@@ -475,6 +475,7 @@ async function depositToUnifiedBalance(chainKey, amount) {
       await refreshBalances();
 
       const latestConfirmed = getConfirmedBalanceTotal(currentBalances);
+      const latestPending = parseFloat(currentBalances?.totalPendingBalance ?? "0") || 0;
       const depositTarget = startingConfirmed + parseFloat(amount ?? "0") - 0.000001;
 
       if (depositRow?.status === "confirmed" || latestConfirmed >= depositTarget) {
@@ -482,7 +483,14 @@ async function depositToUnifiedBalance(chainKey, amount) {
         return;
       }
 
-      $("networkStatus").textContent = "Deposit submitted — unified balance can take 10–15 minutes to appear";
+      if (!seenPendingDeposit && latestPending > 0) {
+        seenPendingDeposit = true;
+        $("networkStatus").textContent = "Deposit detected — waiting for Circle Gateway settlement";
+      }
+
+      if (!seenPendingDeposit) {
+        $("networkStatus").textContent = "Deposit submitted — checking for balance updates every few seconds";
+      }
     }
 
     $("networkStatus").textContent = "Deposit is still settling — refresh again in a few minutes";
@@ -500,7 +508,7 @@ async function depositToUnifiedBalance(chainKey, amount) {
     renderLedger();
     await refreshBalances();
     void watchDepositSettlement();
-    $("networkStatus").textContent = "Deposit submitted on the source chain — unified balance can take 10–15 minutes to credit";
+    $("networkStatus").textContent = "Deposit submitted on the source chain — checking for credit every few seconds";
     return result;
   } catch (err) {
     console.error("Deposit failed", err);
