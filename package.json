@@ -10,10 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@circle-fin/adapter-viem-v2": "latest",
-    "@circle-fin/app-kit": "latest",
+    "@circle-fin/adapter-viem-v2": "^1.19.0",
+    "@circle-fin/app-kit": "^1.16.0",
     "buffer": "^6.0.3",
-    "viem": "^2.21.0"
+    "viem": "^2.21.0",
+    "vite-plugin-node-polyfills": "^0.28.0"
   },
   "devDependencies": {
     "vite": "^5.4.0"
